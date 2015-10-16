@@ -113,11 +113,21 @@ for ($i = 0; $i < count($rows); $i++) {
         $code = str_replace(' ', '', $code);
         $code = str_replace('+', '', $code);
 
-        $o = new \MartinLindhe\Data\CallingCodes\CallingCode;
-        $o->country = $country;
-        $o->code = $code;
+        $codes2 = explode(',', $code);
 
-        $list[] = $o;
+        foreach ($codes2 as $code2) {
+
+            if (!is_numeric($code2)) {
+                echo "Skipping ".$code2."\n";
+                continue;
+            }
+
+            $o = new \MartinLindhe\Data\CallingCodes\CallingCode;
+            $o->country = $country;
+            $o->code = $code2;
+
+            $list[] = $o;
+        }
     }
 
 

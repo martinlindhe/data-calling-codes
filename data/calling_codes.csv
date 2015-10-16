@@ -7,7 +7,6 @@ code,country
 355,Albania
 213,Algeria
 1684,"American Samoa"
-NorthAmericanNumberingPlan,"American Samoa"
 376,Andorra
 244,Angola
 1264,Anguilla
@@ -77,7 +76,8 @@ NorthAmericanNumberingPlan,"American Samoa"
 593,Ecuador
 20,Egypt
 503,"El Salvador"
-"8812,8813","Ellipso (Mobile Satellite service)"
+8812,"Ellipso (Mobile Satellite service)"
+8813,"Ellipso (Mobile Satellite service)"
 88213,"EMSAT (Mobile Satellite service)"
 240,"Equatorial Guinea"
 291,Eritrea
@@ -98,7 +98,8 @@ NorthAmericanNumberingPlan,"American Samoa"
 233,Ghana
 350,Gibraltar
 881,"Global Mobile Satellite System (GMSS)"
-"8818,8819","Globalstar (Mobile Satellite Service)"
+8818,"Globalstar (Mobile Satellite Service)"
+8819,"Globalstar (Mobile Satellite Service)"
 30,Greece
 299,Greenland
 1473,Grenada
@@ -114,7 +115,8 @@ NorthAmericanNumberingPlan,"American Samoa"
 852,"Hong Kong"
 36,Hungary
 354,Iceland
-"8810,8811","ICO Global (Mobile Satellite Service)"
+8810,"ICO Global (Mobile Satellite Service)"
+8811,"ICO Global (Mobile Satellite Service)"
 91,India
 62,Indonesia
 870,"Inmarsat SNAC"
@@ -123,7 +125,8 @@ NorthAmericanNumberingPlan,"American Samoa"
 98,Iran
 964,Iraq
 353,Ireland
-"8816,8817","Iridium (Mobile Satellite service)"
+8816,"Iridium (Mobile Satellite service)"
+8817,"Iridium (Mobile Satellite service)"
 44,"Isle of Man"
 972,Israel
 39,Italy

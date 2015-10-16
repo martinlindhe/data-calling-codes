@@ -32,10 +32,6 @@
         "code": "1684"
     },
     {
-        "country": "American Samoa",
-        "code": "NorthAmericanNumberingPlan"
-    },
-    {
         "country": "Andorra",
         "code": "376"
     },
@@ -313,7 +309,11 @@
     },
     {
         "country": "Ellipso (Mobile Satellite service)",
-        "code": "8812,8813"
+        "code": "8812"
+    },
+    {
+        "country": "Ellipso (Mobile Satellite service)",
+        "code": "8813"
     },
     {
         "country": "EMSAT (Mobile Satellite service)",
@@ -397,7 +397,11 @@
     },
     {
         "country": "Globalstar (Mobile Satellite Service)",
-        "code": "8818,8819"
+        "code": "8818"
+    },
+    {
+        "country": "Globalstar (Mobile Satellite Service)",
+        "code": "8819"
     },
     {
         "country": "Greece",
@@ -461,7 +465,11 @@
     },
     {
         "country": "ICO Global (Mobile Satellite Service)",
-        "code": "8810,8811"
+        "code": "8810"
+    },
+    {
+        "country": "ICO Global (Mobile Satellite Service)",
+        "code": "8811"
     },
     {
         "country": "India",
@@ -497,7 +505,11 @@
     },
     {
         "country": "Iridium (Mobile Satellite service)",
-        "code": "8816,8817"
+        "code": "8816"
+    },
+    {
+        "country": "Iridium (Mobile Satellite service)",
+        "code": "8817"
     },
     {
         "country": "Isle of Man",
