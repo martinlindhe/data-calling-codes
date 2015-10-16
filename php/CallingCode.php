@@ -2,8 +2,6 @@
 
 class CallingCode
 {
-    var $name;
-    var $alpha2;
-    var $alpha3;
-    var $number;
+    var $country;
+    var $code;
 }

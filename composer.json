@@ -1,6 +1,6 @@
 {
     "name": "martinlindhe/data-calling-codes",
-    "description": "Data set with calling codes based on ISO xxx",
+    "description": "Data set with calling codes based on https://en.wikipedia.org/wiki/List_of_country_calling_codes",
     "license": "MIT",
     "require": {
         "php": ">=5.4.0",

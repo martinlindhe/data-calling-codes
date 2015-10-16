@@ -1,52 +1,20 @@
 <?php
 
-// script to update data files, based on https://en.wikipedia.org/wiki/List_of_country_calling_codes#Alphabetical_listing_by_country_or_region
+// script to update data files,
+// based on https://en.wikipedia.org/wiki/List_of_country_calling_codes#Alphabetical_listing_by_country_or_region
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-function cleanText($s)
-{
-    $s = trim($s);
-
-    if ($s == '|-') {
-        return '';
-    }
-
-    if (substr($s, 0, 2) == '| ') {
-        $s = substr($s, 2);
-    }
-
-    $p1 = strpos($s, '<!--');
-    if ($p1 !== false) {
-        $p2 = strpos($s, '-->');
-        if ($p2 !== false) {
-            $s = substr($s, 0, $p1).substr($s, $p2 + strlen('-->'));
-            return cleanText($s);
-        }
-        return '';
-    }
-
-    $p1 = strpos($s, '<ref>');
-    if ($p1 !== false) {
-        $p2 = strpos($s, '</ref>');
-        if ($p2 !== false) {
-            $s = substr($s, 0, $p1).substr($s, $p2 + strlen('</ref>'));
-            return cleanText($s);
-        }
-        return '';
-    }
-
-    return $s;
-}
-
 function getRightSideOfMediawikiTag($t)
 {
-    $pos = mb_strpos($t, '{{');
+    $start = '[[';
+    $pos = mb_strpos($t, $start);
     if ($pos === false) {
         return $t;
     }
+    $t = mb_substr($t, $pos + strlen($start));
 
-    $pos2 = mb_strpos($t, '}}', $pos);
+    $pos2 = mb_strpos($t, ']]', $pos);
     if ($pos2 === false) {
         return $t;
     }
@@ -60,24 +28,21 @@ function getRightSideOfMediawikiTag($t)
     return $t;
 }
 
-function isAlpha3InList($alpha3, $list)
+function cleanText($s)
 {
-    foreach ($list as $o) {
-        if ($o->alpha3 == $alpha3) {
-            return true;
-        }
-    }
-    return false;
+    $s = str_replace('|', '', $s);
+    $s = trim($s);
+    return $s;
 }
 
 function write_csv($fileName, $list)
 {
     $csv = League\Csv\Writer::createFromFileObject(new SplTempFileObject());
 
-    $csv->insertOne(['alpha2', 'alpha3', 'number', 'name']);
+    $csv->insertOne(['code', 'country']);
 
     foreach ($list as $o) {
-        $csv->insertOne([$o->alpha2, $o->alpha3, $o->number, $o->name]);
+        $csv->insertOne([$o->code, $o->country]);
     }
 
     file_put_contents($fileName, $csv->__toString());
@@ -97,8 +62,8 @@ $res = (new MartinLindhe\MediawikiClient\Client)
 
 $x = $res->data;
 
-$start = "Link to [[ISO 3166-2]] subdivision codes"."\n"."|-"."\n";
 
+$start = "! [[Daylight saving time|DST]]"."\n"."|-"."\n";
 
 $pos = strpos($x, $start);
 if ($pos === false) {
@@ -118,45 +83,44 @@ if ($pos2 === false) {
 
 $data = substr($x, $pos, $pos2 - $pos);
 
+function extractLinks($s)
+{
+    preg_match_all('/\[\[[\w\d\s,+|]+\]\]/', $s, $matches);
+
+    return $matches[0];
+}
+
 $list = [];
 
 $rows = explode("\n", $data);
 for ($i = 0; $i < count($rows); $i++) {
 
-    $rows[$i] = cleanText($rows[$i]);
-    if (!$rows[$i]) {
+    if (!$rows[$i] || $rows[$i] == '|-' || $rows[$i] == '|') {
         continue;
     }
 
-    $cols = explode('||', $rows[$i]);
-    if (count($cols) == 1) {
-        $name = $rows[$i];
-        $i++;
-        $rows[$i] = cleanText($rows[$i]);
-        $cols = explode('||', $rows[$i]);
+    $country = cleanText($rows[$i++]);
+
+
+    $codes = extractLinks($rows[$i++]);
+
+    $timezone = $rows[$i++];
+
+
+    foreach ($codes as $c) {
+
+        $code = getRightSideOfMediawikiTag($c);
+        $code = str_replace(' ', '', $code);
+        $code = str_replace('+', '', $code);
+
+        $o = new \MartinLindhe\Data\CallingCodes\CallingCode;
+        $o->country = $country;
+        $o->code = $code;
+
+        $list[] = $o;
     }
 
-    $o = new \MartinLindhe\Data\CallingCodes\CallingCode;
-    $o->alpha2 = getRightSideOfMediawikiTag($cols[0]);
-    $o->alpha3 = getRightSideOfMediawikiTag($cols[1]);
-    $o->number = getRightSideOfMediawikiTag($cols[2]);
 
-    $name = cleanText($name);
-    $name = getRightSideOfMediawikiTag(\MartinLindhe\MediawikiClient\Client::stripMediawikiLinks($name));
-
-    $pos = mb_strpos($name, '/');
-    if ($pos !== false) {
-        $name = mb_substr($name, 0, $pos);
-    }
-
-    $pos = mb_strpos($name, '|');
-    if ($pos !== false) {
-        $name = mb_substr($name, $pos + 1);
-    }
-
-    $o->name = trim($name);
-
-    $list[] = $o;
 }
 
 
