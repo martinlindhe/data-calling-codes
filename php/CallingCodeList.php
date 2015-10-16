@@ -7,7 +7,7 @@ class CallingCodeList
      */
     public static function all()
     {
-        $fileName = __DIR__.'/../data/calling_codes.csv';
+        $fileName = __DIR__.'/../data/calling_codes.json';
 
         $data = file_get_contents($fileName);
 
