@@ -80,6 +80,10 @@ function mapCountry($c)
         return 'Democratic Republic of the Congo';
     }
 
+    if ($c == 'Micronesia, Federated States of') {
+        return 'Federated States of Micronesia';
+    }
+
     return $c;
 }
 
