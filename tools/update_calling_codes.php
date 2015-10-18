@@ -76,6 +76,10 @@ function mapCountry($c)
         return 'Vatican City';
     }
 
+    if ($c == 'Congo, Democratic Republic of the (Zaire)') {
+        return 'Democratic Republic of the Congo';
+    }
+
     return $c;
 }
 
