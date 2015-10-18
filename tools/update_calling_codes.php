@@ -55,6 +55,30 @@ function write_json($fileName, $list)
 }
 
 
+function extractLinks($s)
+{
+    preg_match_all('/\[\[[\w\d\s,+|]+\]\]/', $s, $matches);
+
+    return $matches[0];
+}
+
+function mapCountry($c)
+{
+    if ($c == 'Korea, South') {
+        return 'South Korea';
+    }
+
+    if ($c == 'Korea, North') {
+        return 'North Korea';
+    }
+
+    if ($c == 'Vatican City State (Holy See)') {
+        return 'Vatican City';
+    }
+
+    return $c;
+}
+
 $res = (new MartinLindhe\MediawikiClient\Client)
     ->server('en.wikipedia.org')
     ->cacheTtlSeconds(3600) // 1 hour
@@ -83,13 +107,6 @@ if ($pos2 === false) {
 
 $data = substr($x, $pos, $pos2 - $pos);
 
-function extractLinks($s)
-{
-    preg_match_all('/\[\[[\w\d\s,+|]+\]\]/', $s, $matches);
-
-    return $matches[0];
-}
-
 $list = [];
 
 $rows = explode("\n", $data);
@@ -100,6 +117,7 @@ for ($i = 0; $i < count($rows); $i++) {
     }
 
     $country = cleanText($rows[$i++]);
+    $country = mapCountry($country);
 
 
     $codes = extractLinks($rows[$i++]);
